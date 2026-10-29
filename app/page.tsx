@@ -2,6 +2,7 @@
 
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import { TransactionList } from "@/components/transactions/TransactionList";
+import { SelectEnhancer } from "@/components/ui/SelectEnhancer";
 import { downloadTransactionsCsv } from "@/lib/csv";
 import { categories, categoryIcons, initialState } from "@/lib/finance-data";
 import { formatTwd } from "@/lib/money";
@@ -26,7 +27,7 @@ export default function Home() {
     {page === "dashboard" && <Dashboard state={state} expense={expense} income={income} spend={spend} open={setModal} go={setPage} />}
     {page === "transactions" && <><Header eyebrow="收支明細" title="交易紀錄" action="＋ 新增交易" onAction={() => setModal("transaction")} /><div className="toolbar"><div className="filters"><input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="搜尋描述或分類" /><select value={filter} onChange={(e) => setFilter(e.target.value as TransactionType | "")}><option value="">所有類型</option><option value="expense">支出</option><option value="income">收入</option></select></div><span className="hint">{filtered.length} 筆紀錄 · 依日期整理</span></div>{filtered.length ? <TransactionList transactions={filtered} /> : <div className="empty">找不到符合的交易</div>}</>}
     {page === "budgets" && <Budgets state={state} spend={spend} open={setModal} />}{page === "subscriptions" && <Subscriptions state={state} open={setModal} />}{page === "accounts" && <Accounts state={state} open={setModal} />}
-  </main>{modal && <Modal kind={modal} accounts={state.accounts.map((x) => x.name)} close={() => setModal(null)} save={save} />}<div className={`toast ${toast ? "show" : ""}`}>{toast}</div></div>;
+  </main>{modal && <Modal kind={modal} accounts={state.accounts.map((x) => x.name)} close={() => setModal(null)} save={save} />}<SelectEnhancer /><div className={`toast ${toast ? "show" : ""}`}>{toast}</div></div>;
 }
 
 function Header({ eyebrow, title, action, onAction }: { eyebrow: string; title: string; action: string; onAction: () => void }) { return <div className="top"><div><div className="eyebrow">{eyebrow}</div><h1>{title}</h1></div><button className="primary" onClick={onAction}>{action}</button></div>; }
