@@ -1,5 +1,9 @@
 import type { ReactNode } from "react";
 import "./globals.css";
+import "./edit.css";
+import "./chart.css";
+import "./transactions.css";
+import "./data-tools.css";
 import "./controls.css";
 
 export default function RootLayout({ children }: { children: ReactNode }) {
