@@ -1,0 +1,5 @@
+# Deployable static output is tracked; deployment archives are not source.
+pocketflow-site*.tgz
+
+# Transient folder left behind while the previous workspace handle releases it.
+pocketflow-app/
