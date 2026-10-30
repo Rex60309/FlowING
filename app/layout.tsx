@@ -4,6 +4,7 @@ import "./edit.css";
 import "./chart.css";
 import "./transactions.css";
 import "./data-tools.css";
+import "./insights.css";
 import "./controls.css";
 
 export default function RootLayout({ children }: { children: ReactNode }) {
