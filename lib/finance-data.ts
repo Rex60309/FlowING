@@ -1,7 +1,9 @@
 import type { FinanceState } from "@/types/finance";
 
-export const categories = ["食物", "交通", "日常", "娛樂", "住居", "醫療", "其他", "薪資"];
-export const categoryIcons: Record<string, string> = { 食物: "🍜", 交通: "🚇", 日常: "☀️", 娛樂: "🎬", 住居: "⌂", 醫療: "✚", 薪資: "✦", 其他: "◦" };
+export const expenseCategories = ["食物", "交通", "日常", "娛樂", "住居", "醫療", "其他"];
+export const incomeCategories = ["薪資", "獎金", "投資收益", "其他收入"];
+export const categories = [...expenseCategories, ...incomeCategories];
+export const categoryIcons: Record<string, string> = { 食物: "🍜", 交通: "🚇", 日常: "☀️", 娛樂: "🎬", 住居: "⌂", 醫療: "✚", 其他: "◦", 薪資: "✦", 獎金: "✧", 投資收益: "↗", 其他收入: "+" };
 export const storageKey = "pocketflow-v1";
 export const initialState: FinanceState = {
   accounts: [{ id: "1", name: "日常銀行帳戶", type: "銀行帳戶", balance: 28640 }, { id: "2", name: "現金錢包", type: "現金", balance: 1250 }, { id: "3", name: "玉山信用卡", type: "信用卡", balance: -4620 }],

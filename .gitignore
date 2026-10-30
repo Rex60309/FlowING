@@ -6,3 +6,4 @@ pocketflow-app/
 node_modules/
 .next/
 .vinext/
+dist/
