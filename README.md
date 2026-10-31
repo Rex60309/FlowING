@@ -31,8 +31,8 @@ FlowING 是一個 local-first 個人財務管理 Web App，用於整合交易、
 ### 本機啟動
 
 ```bash
-git clone <repository-url> flowing
-cd flowing
+git clone https://github.com/Rex60309/FlowING.git
+cd FlowING
 npm install
 npm run dev
 ```
@@ -94,8 +94,8 @@ FlowING is a local-first personal finance web app that brings together transacti
 ### Run locally
 
 ```bash
-git clone <repository-url> flowing
-cd flowing
+git clone https://github.com/Rex60309/FlowING.git
+cd FlowING
 npm install
 npm run dev
 ```
