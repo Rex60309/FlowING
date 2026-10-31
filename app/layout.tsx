@@ -9,6 +9,7 @@ import "./controls.css";
 import "./theme.css";
 import "./dashboard.css";
 import "./transfers.css";
+import "./subscription-record.css";
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return <html lang="zh-Hant"><body>{children}</body></html>;
