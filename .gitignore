@@ -1,9 +1,30 @@
-# Deployable static output is tracked; deployment archives are not source.
-pocketflow-site*.tgz
-
-# Transient folder left behind while the previous workspace handle releases it.
-pocketflow-app/
+# Dependencies
 node_modules/
+
+# Framework and build output
 .next/
 .vinext/
 dist/
+coverage/
+.turbo/
+*.tsbuildinfo
+
+# Local environment and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Logs and package-manager diagnostics
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Editor and operating-system files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

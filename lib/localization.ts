@@ -6,15 +6,39 @@ export type AppLanguage = "zh" | "en";
  * (and accessible labels) after React paints.
  */
 const copy: Array<[string, string]> = [
-  ["所有支出分類都會列出，可依需要啟用並設定額度。", "Every expense category is listed here. Enable only what you want to budget for."],
+  [
+    "所有支出分類都會列出，可依需要啟用並設定額度。",
+    "Every expense category is listed here. Enable only what you want to budget for.",
+  ],
   ["資料只存於這台裝置，記得定期備份。", "Data stays on this device, so remember to back it up."],
-  ["修改帳戶名稱會一併更新相關交易與訂閱；使用中的帳戶須先整理關聯資料才能刪除。", "Renaming an account also updates related transactions and subscriptions. Move linked data before deleting it."],
-  ["自訂分類會立即出現在新增交易的分類選單中。", "Custom categories appear in the new-transaction category menu right away."],
-  ["資料只存放在此瀏覽器，建議定期備份。", "Your data is stored only in this browser. Back it up regularly."],
-  ["尚未納入預算計算；啟用後可設定每期額度。", "This category is not included in budgeting yet. Enable it to set a limit."],
-  ["帳戶餘額會同步更新，並保留最近轉帳紀錄。", "Account balances update together, while recent transfers are retained."],
-  ["用於補齊漏記的扣款；預設不會影響既有排程。", "Use this to fill in a missed charge. It does not change the schedule by default."],
-  ["僅在這筆就是原定本期扣款時勾選；下次日期將從", "Select this only when this was the scheduled charge; the next date moves forward from"],
+  [
+    "修改帳戶名稱會一併更新相關交易與訂閱；使用中的帳戶須先整理關聯資料才能刪除。",
+    "Renaming an account also updates related transactions and subscriptions. Move linked data before deleting it.",
+  ],
+  [
+    "自訂分類會立即出現在新增交易的分類選單中。",
+    "Custom categories appear in the new-transaction category menu right away.",
+  ],
+  [
+    "資料只存放在此瀏覽器，建議定期備份。",
+    "Your data is stored only in this browser. Back it up regularly.",
+  ],
+  [
+    "尚未納入預算計算；啟用後可設定每期額度。",
+    "This category is not included in budgeting yet. Enable it to set a limit.",
+  ],
+  [
+    "帳戶餘額會同步更新，並保留最近轉帳紀錄。",
+    "Account balances update together, while recent transfers are retained.",
+  ],
+  [
+    "用於補齊漏記的扣款；預設不會影響既有排程。",
+    "Use this to fill in a missed charge. It does not change the schedule by default.",
+  ],
+  [
+    "僅在這筆就是原定本期扣款時勾選；下次日期將從",
+    "Select this only when this was the scheduled charge; the next date moves forward from",
+  ],
   ["尚無交易紀錄", "No transactions yet"],
   ["近七日消費柱狀圖", "Last seven days spending chart"],
   ["近 7 日消費", "Last 7 days spending"],
@@ -167,7 +191,10 @@ const copy: Array<[string, string]> = [
   ["薪資", "Salary"],
   ["淨額", "Net"],
   ["筆紀錄", "records"],
-  ["儲存後會立即更新本機資料；刪除無法復原。", "Saving updates local data immediately. Deleted data cannot be restored."],
+  [
+    "儲存後會立即更新本機資料；刪除無法復原。",
+    "Saving updates local data immediately. Deleted data cannot be restored.",
+  ],
   ["往後推進。", "forward."],
   ["請選擇", "Select"],
   ["已儲存到本機資料", "Saved to local data"],
@@ -176,12 +203,24 @@ const copy: Array<[string, string]> = [
   ["分類名稱已存在", "Category name already exists"],
   ["請輸入分類名稱", "Enter a category name"],
   ["備份檔格式不正確，未變更任何資料。", "This backup file is invalid. No data was changed."],
-  ["確定要清除目前本機資料並恢復示範資料嗎？此操作無法復原。", "Reset local data and restore the demo data? This cannot be undone."],
+  [
+    "確定要清除目前本機資料並恢復示範資料嗎？此操作無法復原。",
+    "Reset local data and restore the demo data? This cannot be undone.",
+  ],
   ["這個日期已有相同訂閱交易", "An identical subscription transaction already exists on this date"],
-  ["此分類已有交易或預算，無法刪除", "This category is used by a transaction or budget and cannot be deleted"],
-  ["此帳戶仍有交易或訂閱，請先改用其他帳戶", "This account still has related transactions or subscriptions. Reassign them first."],
+  [
+    "此分類已有交易或預算，無法刪除",
+    "This category is used by a transaction or budget and cannot be deleted",
+  ],
+  [
+    "此帳戶仍有交易或訂閱，請先改用其他帳戶",
+    "This account still has related transactions or subscriptions. Reassign them first.",
+  ],
   ["轉出與轉入帳戶不可相同", "The source and destination accounts must be different"],
-  ["已完成帳戶轉帳，不計入收支統計", "Transfer completed. It is excluded from income and expense totals."],
+  [
+    "已完成帳戶轉帳，不計入收支統計",
+    "Transfer completed. It is excluded from income and expense totals.",
+  ],
 ];
 
 const orderedCopy = [...copy].sort((a, b) => b[0].length - a[0].length);
@@ -203,10 +242,12 @@ export function localizeRenderedApp(language: AppLanguage) {
   const textNodes: Text[] = [];
   let node = walker.nextNode();
   while (node) {
-    if (!(node.parentElement?.closest("[data-localize-skip]"))) textNodes.push(node as Text);
+    if (!node.parentElement?.closest("[data-localize-skip]")) textNodes.push(node as Text);
     node = walker.nextNode();
   }
-  textNodes.forEach((text) => { text.nodeValue = replaceCopy(text.nodeValue ?? "", language); });
+  textNodes.forEach((text) => {
+    text.nodeValue = replaceCopy(text.nodeValue ?? "", language);
+  });
 
   root.querySelectorAll<HTMLElement>("[placeholder], [aria-label], [title]").forEach((element) => {
     ["placeholder", "aria-label", "title"].forEach((attribute) => {

@@ -1,5 +1,11 @@
 export type TransactionType = "expense" | "income";
-export type Page = "dashboard" | "transactions" | "budgets" | "subscriptions" | "accounts" | "categories";
+export type Page =
+  | "dashboard"
+  | "transactions"
+  | "budgets"
+  | "subscriptions"
+  | "accounts"
+  | "categories";
 
 export interface Transaction {
   id: string;
@@ -10,8 +16,40 @@ export interface Transaction {
   amount: number;
   type: TransactionType;
 }
-export interface Budget { category: string; limit: number; active?: boolean; }
-export interface Subscription { id: string; name: string; amount: number; cycle: string; next: string; account: string; status: "啟用中" | "已暫停"; }
-export interface Account { id: string; name: string; type: string; balance: number; }
-export interface Transfer { id: string; date: string; from: string; to: string; amount: number; note?: string; }
-export interface FinanceState { transactions: Transaction[]; budgets: Budget[]; subscriptions: Subscription[]; accounts: Account[]; transfers?: Transfer[]; customExpenseCategories?: string[]; customIncomeCategories?: string[]; }
+export interface Budget {
+  category: string;
+  limit: number;
+  active?: boolean;
+}
+export interface Subscription {
+  id: string;
+  name: string;
+  amount: number;
+  cycle: string;
+  next: string;
+  account: string;
+  status: "啟用中" | "已暫停";
+}
+export interface Account {
+  id: string;
+  name: string;
+  type: string;
+  balance: number;
+}
+export interface Transfer {
+  id: string;
+  date: string;
+  from: string;
+  to: string;
+  amount: number;
+  note?: string;
+}
+export interface FinanceState {
+  transactions: Transaction[];
+  budgets: Budget[];
+  subscriptions: Subscription[];
+  accounts: Account[];
+  transfers?: Transfer[];
+  customExpenseCategories?: string[];
+  customIncomeCategories?: string[];
+}

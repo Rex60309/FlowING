@@ -55,14 +55,14 @@
 
 ## 2. 使用者情境與驗收標準
 
-| 情境 | 使用者操作 | 完成條件 |
-| --- | --- | --- |
+| 情境     | 使用者操作                                           | 完成條件                                           |
+| -------- | ---------------------------------------------------- | -------------------------------------------------- |
 | 快速記帳 | 新增支出，選「食物」、金額 180，輸入「公司附近午餐」 | 交易出現在清單與本月食物統計；餘額與預算同步更新。 |
-| 自由描述 | 任選分類後填寫描述、標籤與日期 | 描述可完整保存，且可用關鍵字搜尋。 |
-| 查看花費 | 打開儀表板並選本月 | 顯示總支出、各分類、日／週趨勢、預算狀態。 |
-| 訂閱提醒 | 新增 Netflix，每月 390、下次扣款日 | 系統計算下一次扣款並在設定的提醒日前建立提醒。 |
-| 取消訂閱 | 將訂閱狀態改為取消／暫停 | 後續不再產生新的提醒；歷史資料保留。 |
-| 資料可攜 | 在設定頁匯出資料 | 使用者僅能下載自己帳本的 CSV。 |
+| 自由描述 | 任選分類後填寫描述、標籤與日期                       | 描述可完整保存，且可用關鍵字搜尋。                 |
+| 查看花費 | 打開儀表板並選本月                                   | 顯示總支出、各分類、日／週趨勢、預算狀態。         |
+| 訂閱提醒 | 新增 Netflix，每月 390、下次扣款日                   | 系統計算下一次扣款並在設定的提醒日前建立提醒。     |
+| 取消訂閱 | 將訂閱狀態改為取消／暫停                             | 後續不再產生新的提醒；歷史資料保留。               |
+| 資料可攜 | 在設定頁匯出資料                                     | 使用者僅能下載自己帳本的 CSV。                     |
 
 不可省略的驗收原則：所有金額運算必須準確到小數點後兩位；使用者 A 絕不可透過 URL、API 或匯出取得使用者 B 的資料。
 
@@ -70,19 +70,19 @@
 
 ## 3. 技術選型（預設）
 
-| 層面 | 建議 | 原因 |
-| --- | --- | --- |
-| 前端與後端 | Next.js（App Router）+ TypeScript | 同一專案完成 UI、Server Actions／Route Handlers 與部署。 |
-| UI | Tailwind CSS + shadcn/ui | 快速建立一致且可存取的表單、Dialog、Table。 |
-| 表單驗證 | React Hook Form + Zod | 前後端共用 schema，避免無效金額／日期資料。 |
-| 資料庫 | PostgreSQL | 關聯資料、聚合報表與未來擴充都穩定。 |
-| ORM | Prisma | 型別安全的 migration 與查詢。 |
-| 身分驗證 | Auth.js 或 Supabase Auth | Email/password 與 session 管理可快速完成。 |
-| 圖表 | Recharts | 支援趨勢、分類及預算視覺化。 |
-| 背景排程 | Vercel Cron + API route（或 Supabase scheduled functions） | 每日產生訂閱提醒。 |
-| Email | Resend（可選） | 開發與正式寄信流程簡單。 |
-| 測試 | Vitest + Testing Library + Playwright | 覆蓋商業邏輯、元件與端對端流程。 |
-| 部署 | Vercel + Neon／Supabase PostgreSQL | 低維運量，適合作品集。 |
+| 層面       | 建議                                                       | 原因                                                     |
+| ---------- | ---------------------------------------------------------- | -------------------------------------------------------- |
+| 前端與後端 | Next.js（App Router）+ TypeScript                          | 同一專案完成 UI、Server Actions／Route Handlers 與部署。 |
+| UI         | Tailwind CSS + shadcn/ui                                   | 快速建立一致且可存取的表單、Dialog、Table。              |
+| 表單驗證   | React Hook Form + Zod                                      | 前後端共用 schema，避免無效金額／日期資料。              |
+| 資料庫     | PostgreSQL                                                 | 關聯資料、聚合報表與未來擴充都穩定。                     |
+| ORM        | Prisma                                                     | 型別安全的 migration 與查詢。                            |
+| 身分驗證   | Auth.js 或 Supabase Auth                                   | Email/password 與 session 管理可快速完成。               |
+| 圖表       | Recharts                                                   | 支援趨勢、分類及預算視覺化。                             |
+| 背景排程   | Vercel Cron + API route（或 Supabase scheduled functions） | 每日產生訂閱提醒。                                       |
+| Email      | Resend（可選）                                             | 開發與正式寄信流程簡單。                                 |
+| 測試       | Vitest + Testing Library + Playwright                      | 覆蓋商業邏輯、元件與端對端流程。                         |
+| 部署       | Vercel + Neon／Supabase PostgreSQL                         | 低維運量，適合作品集。                                   |
 
 禁止在 client bundle 暴露資料庫 URL、Email API key 或任何 `.env` 祕密。金額使用資料庫 `Decimal(14,2)`，程式內避免 JavaScript 浮點數直接相加；以 decimal library 或整數「分」運算。
 
@@ -218,21 +218,21 @@
 
 若採 Next.js Server Actions，可沿用相同的輸入／輸出 schema；若使用 REST，建議如下。
 
-| Method | Route | 用途 |
-| --- | --- | --- |
-| `GET` | `/api/dashboard?month=YYYY-MM` | 月摘要、圖表資料、即將續費。 |
-| `GET/POST` | `/api/transactions` | 取得篩選清單／建立交易。 |
-| `GET/PATCH/DELETE` | `/api/transactions/:id` | 查詢、更新、soft delete。 |
-| `GET/POST` | `/api/accounts` | 帳戶列表／建立帳戶。 |
-| `PATCH` | `/api/accounts/:id` | 編輯或封存帳戶。 |
-| `GET/POST` | `/api/categories` | 系統＋自訂分類／新增分類。 |
-| `GET/POST` | `/api/budgets` | 月預算／建立或更新預算。 |
-| `GET/POST` | `/api/subscriptions` | 訂閱列表／建立訂閱。 |
-| `GET/PATCH` | `/api/subscriptions/:id` | 詳情、更新狀態、下次扣款。 |
-| `POST` | `/api/subscriptions/:id/record-payment` | 使用者確認後建立一筆實際支出。 |
-| `GET/PATCH` | `/api/notifications` | 取得提醒／標記已讀。 |
-| `GET` | `/api/export/transactions.csv` | 匯出僅屬於登入者的交易。 |
-| `POST` | `/api/jobs/subscription-reminders` | 排程端點，需用 cron secret 驗證。 |
+| Method             | Route                                   | 用途                              |
+| ------------------ | --------------------------------------- | --------------------------------- |
+| `GET`              | `/api/dashboard?month=YYYY-MM`          | 月摘要、圖表資料、即將續費。      |
+| `GET/POST`         | `/api/transactions`                     | 取得篩選清單／建立交易。          |
+| `GET/PATCH/DELETE` | `/api/transactions/:id`                 | 查詢、更新、soft delete。         |
+| `GET/POST`         | `/api/accounts`                         | 帳戶列表／建立帳戶。              |
+| `PATCH`            | `/api/accounts/:id`                     | 編輯或封存帳戶。                  |
+| `GET/POST`         | `/api/categories`                       | 系統＋自訂分類／新增分類。        |
+| `GET/POST`         | `/api/budgets`                          | 月預算／建立或更新預算。          |
+| `GET/POST`         | `/api/subscriptions`                    | 訂閱列表／建立訂閱。              |
+| `GET/PATCH`        | `/api/subscriptions/:id`                | 詳情、更新狀態、下次扣款。        |
+| `POST`             | `/api/subscriptions/:id/record-payment` | 使用者確認後建立一筆實際支出。    |
+| `GET/PATCH`        | `/api/notifications`                    | 取得提醒／標記已讀。              |
+| `GET`              | `/api/export/transactions.csv`          | 匯出僅屬於登入者的交易。          |
+| `POST`             | `/api/jobs/subscription-reminders`      | 排程端點，需用 cron secret 驗證。 |
 
 每個 mutating endpoint 要做：session 驗證、Zod validation、資源所屬權驗證、明確錯誤碼、結構化 server log。不得相信前端傳來的 `userId`。
 
@@ -512,4 +512,3 @@ test-results/
 CV 描述範例（實際完成後再依真實數據改寫）：
 
 > Built and deployed a personal expense and subscription management web app with TypeScript, Next.js, PostgreSQL, and automated renewal reminders; implemented secure user-scoped financial records, budget analytics, and end-to-end test coverage.
-

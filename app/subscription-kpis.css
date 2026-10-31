@@ -1,1 +1,157 @@
-.upcoming-subscriptions{position:relative;display:grid;align-content:start;gap:12px;overflow:hidden;border-color:#d7e7df;background:linear-gradient(135deg,#fbfffd 0%,#f2faf6 100%);box-shadow:0 10px 24px #183c2b0a}.upcoming-subscriptions:before{position:absolute;top:-42px;right:-28px;width:132px;height:132px;border-radius:50%;background:radial-gradient(circle,#a9e4cf70 0 27%,#a9e4cf18 28% 50%,transparent 51%);content:"";pointer-events:none}.upcoming-subscriptions>*{position:relative}.upcoming-subscriptions .section-head{padding-bottom:9px;border-bottom:1px solid #dcece4}.upcoming-subscriptions .label{color:#276b5b;font-weight:800}.upcoming-count{padding:5px 9px;border-radius:99px;background:#e4f2e9;color:#316d5d;font-size:11px;font-weight:800;letter-spacing:.02em}.upcoming-subscription-list{display:grid;gap:7px}.upcoming-subscription{display:grid;grid-template-columns:84px minmax(0,1fr) 84px auto;align-items:center;gap:9px;min-height:38px;padding:8px 10px;border:1px solid transparent;border-left:3px solid;border-radius:10px;font-size:12px;box-shadow:0 1px 0 #183c2b08}.upcoming-subscription>span{font-weight:800}.upcoming-subscription strong{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.upcoming-subscription small{display:flex;align-items:center;justify-content:flex-end;height:100%;color:var(--muted);font-variant-numeric:tabular-nums;line-height:1;text-align:right}.upcoming-subscription b{display:flex;align-items:center;justify-content:flex-end;height:100%;color:var(--ink);font-size:13px;font-variant-numeric:tabular-nums}.upcoming-subscription.urgent{border-color:#d85b57;background:#fff0ee;color:#a63e3b}.upcoming-subscription.soon{border-color:#df922f;background:#fff7e8;color:#9a5c11}.upcoming-subscription.upcoming{border-color:#2f9a7c;background:#eef9f4;color:#176d59}.upcoming-empty{padding:14px 4px;color:var(--muted);font-size:13px}.subscription-kpis>.card{min-height:132px}@media(max-width:620px){.upcoming-subscription{grid-template-columns:1fr auto;gap:4px 8px}.upcoming-subscription>span{grid-column:1/-1}.upcoming-subscription small{grid-column:1}.upcoming-subscription b{grid-column:2;grid-row:2}}[data-theme="dark"] .upcoming-subscriptions{border-color:#365649;background:linear-gradient(135deg,#1d342b,#172a23);box-shadow:0 10px 24px #02080633}[data-theme="dark"] .upcoming-subscriptions:before{background:radial-gradient(circle,#65c5a85c 0 27%,#65c5a814 28% 50%,transparent 51%)}[data-theme="dark"] .upcoming-subscriptions .section-head{border-color:#315044}[data-theme="dark"] .upcoming-subscriptions .label{color:#a3e1cb}[data-theme="dark"] .upcoming-count{background:#25493d;color:#a8e7d0}[data-theme="dark"] .upcoming-subscription.urgent{background:#482a29;color:#ffaaa5}[data-theme="dark"] .upcoming-subscription.soon{background:#4a351e;color:#ffd18a}[data-theme="dark"] .upcoming-subscription.upcoming{background:#183e33;color:#92e4c3}[data-theme="dark"] .upcoming-subscription b{color:#edf6f1}
+.upcoming-subscriptions {
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: 12px;
+  overflow: hidden;
+  border-color: #d7e7df;
+  background: linear-gradient(135deg, #fbfffd 0%, #f2faf6 100%);
+  box-shadow: 0 10px 24px #183c2b0a;
+}
+.upcoming-subscriptions:before {
+  position: absolute;
+  top: -42px;
+  right: -28px;
+  width: 132px;
+  height: 132px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #a9e4cf70 0 27%, #a9e4cf18 28% 50%, transparent 51%);
+  content: "";
+  pointer-events: none;
+}
+.upcoming-subscriptions > * {
+  position: relative;
+}
+.upcoming-subscriptions .section-head {
+  padding-bottom: 9px;
+  border-bottom: 1px solid #dcece4;
+}
+.upcoming-subscriptions .label {
+  color: #276b5b;
+  font-weight: 800;
+}
+.upcoming-count {
+  padding: 5px 9px;
+  border-radius: 99px;
+  background: #e4f2e9;
+  color: #316d5d;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+.upcoming-subscription-list {
+  display: grid;
+  gap: 7px;
+}
+.upcoming-subscription {
+  display: grid;
+  grid-template-columns: 84px minmax(0, 1fr) 84px auto;
+  align-items: center;
+  gap: 9px;
+  min-height: 38px;
+  padding: 8px 10px;
+  border: 1px solid transparent;
+  border-left: 3px solid;
+  border-radius: 10px;
+  font-size: 12px;
+  box-shadow: 0 1px 0 #183c2b08;
+}
+.upcoming-subscription > span {
+  font-weight: 800;
+}
+.upcoming-subscription strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.upcoming-subscription small {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  height: 100%;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  text-align: right;
+}
+.upcoming-subscription b {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  height: 100%;
+  color: var(--ink);
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+}
+.upcoming-subscription.urgent {
+  border-color: #d85b57;
+  background: #fff0ee;
+  color: #a63e3b;
+}
+.upcoming-subscription.soon {
+  border-color: #df922f;
+  background: #fff7e8;
+  color: #9a5c11;
+}
+.upcoming-subscription.upcoming {
+  border-color: #2f9a7c;
+  background: #eef9f4;
+  color: #176d59;
+}
+.upcoming-empty {
+  padding: 14px 4px;
+  color: var(--muted);
+  font-size: 13px;
+}
+.subscription-kpis > .card {
+  min-height: 132px;
+}
+@media (max-width: 620px) {
+  .upcoming-subscription {
+    grid-template-columns: 1fr auto;
+    gap: 4px 8px;
+  }
+  .upcoming-subscription > span {
+    grid-column: 1/-1;
+  }
+  .upcoming-subscription small {
+    grid-column: 1;
+  }
+  .upcoming-subscription b {
+    grid-column: 2;
+    grid-row: 2;
+  }
+}
+[data-theme="dark"] .upcoming-subscriptions {
+  border-color: #365649;
+  background: linear-gradient(135deg, #1d342b, #172a23);
+  box-shadow: 0 10px 24px #02080633;
+}
+[data-theme="dark"] .upcoming-subscriptions:before {
+  background: radial-gradient(circle, #65c5a85c 0 27%, #65c5a814 28% 50%, transparent 51%);
+}
+[data-theme="dark"] .upcoming-subscriptions .section-head {
+  border-color: #315044;
+}
+[data-theme="dark"] .upcoming-subscriptions .label {
+  color: #a3e1cb;
+}
+[data-theme="dark"] .upcoming-count {
+  background: #25493d;
+  color: #a8e7d0;
+}
+[data-theme="dark"] .upcoming-subscription.urgent {
+  background: #482a29;
+  color: #ffaaa5;
+}
+[data-theme="dark"] .upcoming-subscription.soon {
+  background: #4a351e;
+  color: #ffd18a;
+}
+[data-theme="dark"] .upcoming-subscription.upcoming {
+  background: #183e33;
+  color: #92e4c3;
+}
+[data-theme="dark"] .upcoming-subscription b {
+  color: #edf6f1;
+}
