@@ -10,6 +10,59 @@
   align-items: center;
   min-height: 26px;
 }
+.transaction-totals {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  width: min(100%, 460px);
+  margin: 22px auto 4px;
+  padding: 15px 22px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--card);
+  box-shadow: 0 3px 12px #183c2b08;
+  text-align: center;
+}
+.transaction-totals-label {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 750;
+  letter-spacing: 0.04em;
+}
+.transaction-totals-values {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  width: 100%;
+}
+.transaction-totals-values > div {
+  display: grid;
+  flex: 1;
+  gap: 4px;
+}
+.transaction-totals-values span {
+  color: var(--muted);
+  font-size: 12px;
+}
+.transaction-totals-values strong {
+  font-size: 19px;
+}
+.transaction-totals-values i {
+  width: 1px;
+  margin: 2px 22px;
+  background: var(--line);
+}
+@media (max-width: 420px) {
+  .transaction-totals {
+    width: 100%;
+  }
+  .transaction-totals-values i {
+    margin-inline: 12px;
+  }
+  .transaction-totals-values strong {
+    font-size: 17px;
+  }
+}
 @media (max-width: 820px) {
   .day-group .day-heading {
     justify-content: space-between;

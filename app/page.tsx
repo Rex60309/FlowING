@@ -514,6 +514,7 @@ export default function Home() {
             ) : (
               <div className="empty">這個月份找不到符合的交易</div>
             )}
+            <TransactionTotals transactions={filtered} />
           </>
         )}
         {page === "budgets" && (
@@ -746,6 +747,32 @@ function Header({
         </button>
       )}
     </div>
+  );
+}
+
+function TransactionTotals({ transactions }: { transactions: Transaction[] }) {
+  const expense = transactions
+    .filter((item) => item.type === "expense")
+    .reduce((sum, item) => sum + item.amount, 0);
+  const income = transactions
+    .filter((item) => item.type === "income")
+    .reduce((sum, item) => sum + item.amount, 0);
+
+  return (
+    <section className="transaction-totals" aria-label="篩選結果合計">
+      <span className="transaction-totals-label">篩選結果合計</span>
+      <div className="transaction-totals-values">
+        <div>
+          <span>總支出</span>
+          <strong className="negative">-{formatTwd(expense)}</strong>
+        </div>
+        <i aria-hidden="true" />
+        <div>
+          <span>總收入</span>
+          <strong className="positive">+{formatTwd(income)}</strong>
+        </div>
+      </div>
+    </section>
   );
 }
 function Progress({ value }: { value: number }) {
