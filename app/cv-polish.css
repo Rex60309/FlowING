@@ -76,48 +76,57 @@
 .category-empty {
   margin: 14px 0 0;
 }
-.reorder-title {
-  display: flex;
-  align-items: center;
-  min-width: 0;
-  gap: 8px;
-}
-.drag-handle {
-  display: grid;
-  place-items: center;
-  width: 26px;
-  height: 28px;
-  flex: 0 0 26px;
-  padding: 0;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: #f3f7f4;
-  color: var(--muted);
-  cursor: grab;
-  font-size: 17px;
-  line-height: 1;
-  touch-action: none;
-}
-.drag-handle:active {
-  cursor: grabbing;
-}
-.drag-handle:hover,
-.drag-handle:focus-visible {
-  border-color: #75b8a4;
-  background: #e3f3ec;
-  color: var(--teal);
-  outline: none;
-}
 .reorderable {
+  position: relative;
+  cursor: grab;
   transition:
     opacity 0.16s ease,
     transform 0.16s ease,
     border-color 0.16s ease;
 }
+.reorderable:active {
+  cursor: grabbing;
+}
 .reorderable.is-dragging {
   border-color: #76bba7;
-  opacity: 0.55;
+  opacity: 0.32;
   transform: scale(0.99);
+}
+.budget-item.reorderable::before,
+.sub-item.reorderable::before,
+.account.reorderable::before {
+  position: absolute;
+  top: 50%;
+  left: -25px;
+  color: #7ca99a;
+  content: "⋮⋮";
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -6px;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-50%);
+  transition:
+    opacity 0.16s ease,
+    transform 0.16s ease;
+}
+.budget-item.reorderable:hover::before,
+.budget-item.reorderable.is-dragging::before,
+.sub-item.reorderable:hover::before,
+.sub-item.reorderable.is-dragging::before,
+.account.reorderable:hover::before,
+.account.reorderable.is-dragging::before {
+  opacity: 1;
+  transform: translate(-2px, -50%);
+}
+.drag-preview {
+  position: fixed;
+  top: -10000px;
+  left: -10000px;
+  z-index: -1;
+  opacity: 0.72;
+  box-shadow: 0 20px 44px #0e332825;
+  transform: rotate(1deg) scale(0.98);
 }
 .reorder-controls {
   display: inline-flex;
@@ -146,14 +155,6 @@
 .reorder-button:disabled {
   cursor: not-allowed;
   opacity: 0.35;
-}
-.category-chip .drag-handle {
-  width: 18px;
-  height: 18px;
-  border: 0;
-  background: transparent;
-  color: inherit;
-  font-size: 14px;
 }
 .category-chip .reorder-controls {
   gap: 1px;
@@ -250,21 +251,17 @@
   background: #356a58;
   color: #e7f7ee;
 }
-[data-theme="dark"] .drag-handle,
 [data-theme="dark"] .reorder-button {
   border-color: #3b584c;
   background: #1c332a;
   color: #afc9bd;
 }
-[data-theme="dark"] .drag-handle:hover,
-[data-theme="dark"] .drag-handle:focus-visible,
 [data-theme="dark"] .reorder-button:hover:not(:disabled),
 [data-theme="dark"] .reorder-button:focus-visible {
   border-color: #5eaa91;
   background: #294b3e;
   color: #8de0c1;
 }
-[data-theme="dark"] .category-chip .drag-handle,
 [data-theme="dark"] .category-chip .reorder-button {
   background: transparent;
   color: inherit;

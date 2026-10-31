@@ -808,20 +808,31 @@ function useSortableList<T>(
   return {
     draggedId,
     itemProps: (id: string) => ({
+      draggable: true,
+      onDragStart: (event: DragEvent<HTMLElement>) => {
+        event.dataTransfer.effectAllowed = "move";
+        const source = event.currentTarget;
+        const preview = source.cloneNode(true) as HTMLElement;
+        const bounds = source.getBoundingClientRect();
+        preview.classList.remove("is-dragging");
+        preview.classList.add("drag-preview");
+        preview.style.width = `${bounds.width}px`;
+        document.body.append(preview);
+        event.dataTransfer.setDragImage(
+          preview,
+          event.clientX - bounds.left,
+          event.clientY - bounds.top
+        );
+        window.setTimeout(() => preview.remove(), 0);
+        setDraggedId(id);
+      },
+      onDragEnd: () => setDraggedId(null),
       onDragOver: (event: DragEvent<HTMLElement>) => event.preventDefault(),
       onDrop: (event: DragEvent<HTMLElement>) => {
         event.preventDefault();
         moveTo(id);
         setDraggedId(null);
       },
-    }),
-    handleProps: (id: string) => ({
-      draggable: true,
-      onDragStart: (event: DragEvent<HTMLButtonElement>) => {
-        event.dataTransfer.effectAllowed = "move";
-        setDraggedId(id);
-      },
-      onDragEnd: () => setDraggedId(null),
     }),
     move,
   };
@@ -1118,20 +1129,9 @@ function Budgets({
               {...sortable.itemProps(item.category)}
             >
               <header>
-                <div className="reorder-title">
-                  <button
-                    type="button"
-                    className="drag-handle"
-                    aria-label={`拖曳以排序 ${item.category}`}
-                    title="拖曳以排序"
-                    {...sortable.handleProps(item.category)}
-                  >
-                    ⠿
-                  </button>
-                  <strong>
-                    {categoryIcons[item.category] ?? "◦"}　{item.category}
-                  </strong>
-                </div>
+                <strong>
+                  {categoryIcons[item.category] ?? "◦"}　{item.category}
+                </strong>
                 <div className="item-actions">
                   <span className={`budget-status ${enabled ? "on" : ""}`}>
                     {enabled ? "啟用中" : "未啟用"}
@@ -1226,22 +1226,11 @@ function Subscriptions({
               {...sortable.itemProps(item.id)}
             >
               <header>
-                <div className="reorder-title">
-                  <button
-                    type="button"
-                    className="drag-handle"
-                    aria-label={`拖曳以排序 ${item.name}`}
-                    title="拖曳以排序"
-                    {...sortable.handleProps(item.id)}
-                  >
-                    ⠿
-                  </button>
-                  <div>
-                    <strong>{item.name}</strong>
-                    <p>
-                      {item.cycle} · {item.account}
-                    </p>
-                  </div>
+                <div>
+                  <strong>{item.name}</strong>
+                  <p>
+                    {item.cycle} · {item.account}
+                  </p>
                 </div>
                 <div className="right">
                   <strong>{formatTwd(item.amount)}</strong>
@@ -1314,19 +1303,8 @@ function Accounts({
             {...sortable.itemProps(item.id)}
           >
             <div className="section-head tight">
-              <div className="reorder-title">
-                <button
-                  type="button"
-                  className="drag-handle"
-                  aria-label={`拖曳以排序 ${item.name}`}
-                  title="拖曳以排序"
-                  {...sortable.handleProps(item.id)}
-                >
-                  ⠿
-                </button>
-                <div className="icon">
-                  {item.type === "信用卡" ? "▣" : item.type === "現金" ? "◫" : "◇"}
-                </div>
+              <div className="icon">
+                {item.type === "信用卡" ? "▣" : item.type === "現金" ? "◫" : "◇"}
               </div>
               <div className="item-actions">
                 <button className="icon-button" onClick={() => open("account", item)}>
@@ -1417,15 +1395,6 @@ function Categories({
               key={item}
               {...sortable.itemProps(item)}
             >
-              <button
-                type="button"
-                className="drag-handle"
-                aria-label={`拖曳以排序 ${item}`}
-                title="拖曳以排序"
-                {...sortable.handleProps(item)}
-              >
-                ⠿
-              </button>
               <span>
                 {categoryIcons[item] ?? "◦"} {item}
               </span>
