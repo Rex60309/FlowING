@@ -10,6 +10,10 @@ import "./theme.css";
 import "./dashboard.css";
 import "./transfers.css";
 import "./subscription-record.css";
+import "./subscription-kpis.css";
+import "./subscription-kpi-tuning.css";
+import "./cv-polish.css";
+import "./language.css";
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return <html lang="zh-Hant"><body>{children}</body></html>;

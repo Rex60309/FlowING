@@ -1,16 +1,50 @@
-# Flowing
+# FlowING
 
-Flowing 是一個以繁體中文呈現的個人記帳與訂閱管理初版。這個展示版以瀏覽器 `localStorage` 保存資料，提供交易、帳戶、預算、訂閱與 CSV 匯出流程；不含登入、雲端同步或真實通知排程。
+一個以繁體中文打造、以「快速看懂金流」為核心的個人財務儀表板。FlowING 將交易、帳戶、預算與訂閱整合在同一個本機優先（local-first）的體驗中。
 
-React 版本使用 `npm run dev` 啟動；`npm run typecheck` 進行型別檢查。
+> 展示版資料僅儲存在瀏覽器 `localStorage`；不需註冊、不會將資料傳到伺服器。
+
+## 作品亮點
+
+- 收入、支出、淨現金流與分類支出儀表板
+- 交易的年月、類型與關鍵字篩選，以及 CSV 匯出
+- 逐分類預算啟用／停用、使用進度與超支提醒
+- 訂閱月成本換算、7 天內提醒、到期自動入帳與安全補登流程
+- 帳戶轉帳紀錄，不會誤算為收入或支出
+- 自訂收入／支出分類與深色模式
+- 響應式介面、鍵盤焦點狀態、首次使用引導與本機備份／還原
+
+## 技術
+
+- React 19、TypeScript、Vinext / Vite
+- 瀏覽器 LocalStorage 資料持久化
+- Vitest 商業邏輯測試
+- 純 CSS 響應式與深色模式設計
+
+## 本機啟動
+
+```bash
+npm install
+npm run dev
+```
+
+## 品質檢查
+
+```bash
+npm test
+npm run typecheck
+npm run build
+```
+
+## 隱私與資料
+
+此版本不含帳號、雲端同步或伺服器資料庫。資料保存在目前瀏覽器，清除瀏覽器資料或換裝置前請先使用帳戶頁的備份功能匯出 JSON。公開部署時請保留示範資料，不要將真實交易資料提交到 Git。
 
 ## 專案結構
 
 ```text
-.openai/hosting.json       Sites 部署設定
-app/                       React 頁面、根版型與全域樣式
-components/                可重用的 UI 元件
-lib/                       初始資料、儲存、金額與 CSV 工具
-types/                     共用資料模型
-expense-tracker-app-spec.md  產品與後續正式版規格
+app/          頁面、介面與樣式
+components/   可重用 UI 元件
+lib/          財務規則、初始資料、儲存與工具
+types/        共用資料模型
 ```
