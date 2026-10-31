@@ -446,21 +446,6 @@ export default function Home() {
         </nav>
         <LanguageToggle language={language} onChange={chooseLanguage} />
         <ThemeToggle theme={theme} onToggle={toggleTheme} />
-        <div className="side-foot">
-          {language === "en" ? (
-            <>
-              Local demo
-              <br />
-              Data stays in this browser
-            </>
-          ) : (
-            <>
-              本機展示版
-              <br />
-              資料僅儲存在此瀏覽器
-            </>
-          )}
-        </div>
       </aside>
       <main className="main">
         {page === "dashboard" && (

@@ -122,10 +122,6 @@ body,
 [data-theme="dark"] .nav button:hover {
   background: #245e51;
 }
-[data-theme="dark"] .side-foot {
-  border-color: #254137;
-  color: #8da79c;
-}
 [data-theme="dark"] .feature {
   background: linear-gradient(140deg, #174d43, #155f52);
 }
