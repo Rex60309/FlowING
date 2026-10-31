@@ -101,6 +101,8 @@ const copy: Array<[string, string]> = [
   ["排序", "order"],
   ["上移", "Move up"],
   ["下移", "Move down"],
+  ["左移", "Move left"],
+  ["右移", "Move right"],
   ["本月總支出", "Monthly expenses"],
   ["本月收入", "Monthly income"],
   ["淨現金流", "Net cash flow"],

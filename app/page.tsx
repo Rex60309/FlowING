@@ -843,12 +843,16 @@ function ReorderControls({
   total,
   onMove,
   label,
+  direction = "vertical",
 }: {
   index: number;
   total: number;
   onMove: (from: number, to: number) => void;
   label: string;
+  direction?: "vertical" | "horizontal";
 }) {
+  const previous = direction === "horizontal" ? "左移" : "上移";
+  const next = direction === "horizontal" ? "右移" : "下移";
   return (
     <div className="reorder-controls" aria-label={`調整 ${label} 排序`}>
       <button
@@ -856,20 +860,20 @@ function ReorderControls({
         className="reorder-button"
         disabled={index === 0}
         onClick={() => onMove(index, index - 1)}
-        aria-label={`上移 ${label}`}
-        title="上移"
+        aria-label={`${previous} ${label}`}
+        title={previous}
       >
-        ↑
+        {direction === "horizontal" ? "←" : "↑"}
       </button>
       <button
         type="button"
         className="reorder-button"
         disabled={index === total - 1}
         onClick={() => onMove(index, index + 1)}
-        aria-label={`下移 ${label}`}
-        title="下移"
+        aria-label={`${next} ${label}`}
+        title={next}
       >
-        ↓
+        {direction === "horizontal" ? "→" : "↓"}
       </button>
     </div>
   );
@@ -1315,6 +1319,7 @@ function Accounts({
                   total={state.accounts.length}
                   onMove={sortable.move}
                   label={item.name}
+                  direction="horizontal"
                 />
               </div>
             </div>
@@ -1408,6 +1413,7 @@ function Categories({
                 total={categories.length}
                 onMove={sortable.move}
                 label={item}
+                direction="horizontal"
               />
             </div>
           ))}
