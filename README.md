@@ -30,22 +30,22 @@ FlowING 是一個 local-first 個人財務管理 Web App，協助使用者快速
 3. 使用年、月、類型與搜尋欄篩選歷史交易；可匯出目前期間為 CSV。
 4. 到「預算管理」啟用所需分類，再設定每月額度；首頁只顯示已啟用的預算。
 5. 在「訂閱管理」設定扣款週期和下一次扣款日。到期時，App 開啟後會自動建立一筆交易並推進日期。若只是補登舊交易，請不要勾選推進日期。
-6. 定期至「帳戶」匯出 JSON 備份；還原與重設示範資料也在同一頁。
+6. 定期至「首頁」最下方匯出 JSON 備份；還原與重設示範資料也在同一區塊。
 
 ### 各頁功能
 
-| 頁面     | 用途                                                                                                               |
-| -------- | ------------------------------------------------------------------------------------------------------------------ |
-| 首頁     | 顯示選定月份的收支摘要、剩餘預算、近 7 日消費、分類支出、預算進度與最近交易。可點選柱狀圖查看當天交易。            |
-| 交易紀錄 | 集中檢視所有交易，可依年、月、類型與關鍵字篩選，並新增、編輯、刪除或匯出資料。每日摘要只顯示實際存在的收入或支出。 |
-| 預算管理 | 列出所有支出分類；自行決定是否啟用預算、設定額度並查看使用比例與提醒。                                             |
-| 訂閱管理 | 管理固定支出、換算預估月成本、提醒未來 7 天的扣款，並支援自動入帳或手動補登。                                      |
-| 帳戶     | 管理付款帳戶和餘額、在帳戶間轉帳、備份或還原本機資料。轉帳不會被算成收入或支出。                                   |
-| 分類管理 | 管理內建與自訂的收入/支出分類；有交易或預算關聯的自訂分類不可刪除。                                                |
+| 頁面     | 用途                                                                                                                                      |
+| -------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| 首頁     | 顯示選定月份的收支摘要、剩餘預算、近 7 日消費、分類支出、預算進度與最近交易。可點選柱狀圖查看當天交易；最下方可備份、還原或重設本機資料。 |
+| 交易紀錄 | 集中檢視所有交易，可依年、月、類型與關鍵字篩選，並新增、編輯、刪除或匯出資料。每日摘要只顯示實際存在的收入或支出。                        |
+| 預算管理 | 列出所有支出分類；自行決定是否啟用預算、設定額度並查看使用比例與提醒。                                                                    |
+| 訂閱管理 | 管理固定支出、換算預估月成本、提醒未來 7 天的扣款，並支援自動入帳或手動補登。                                                             |
+| 帳戶     | 管理付款帳戶和餘額、在帳戶間轉帳。轉帳不會被算成收入或支出。                                                                              |
+| 分類管理 | 管理內建與自訂的收入/支出分類；有交易或預算關聯的自訂分類不可刪除。                                                                       |
 
 ### 測試資料
 
-示範資料包含 2024–2026 年、54 筆不同日期與分類的交易，適合測試年月篩選、交易排序、圖表與分類統計。若瀏覽器已儲存舊資料，請在「帳戶」頁使用「重設示範資料」後重新載入。
+示範資料包含 2024–2026 年、54 筆不同日期與分類的交易，適合測試年月篩選、交易排序、圖表與分類統計。若瀏覽器已儲存舊資料，請在「首頁」最下方使用「重設示範資料」後重新載入。
 
 ### 本機啟動
 
@@ -113,22 +113,22 @@ FlowING is a local-first personal finance web app for understanding the relation
 3. Filter history by year, month, type, or keyword, then export the selected period as CSV when needed.
 4. Enable the categories you want in **Budgets**, then set monthly limits. The dashboard only shows active budgets.
 5. Configure a billing cycle and next date in **Subscriptions**. When the app opens on or after a due date, it records the charge and advances the date. Leave the advance option unchecked when merely backfilling a past charge.
-6. Export a JSON backup regularly from **Accounts**. Restore and reset-demo actions live there too.
+6. Export a JSON backup regularly from the bottom of **Home**. Restore and reset-demo actions live there too.
 
 ### Page guide
 
-| Page          | Purpose                                                                                                                                                                                  |
-| ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Home          | Shows the selected month's financial summary, remaining budget, seven-day chart, category spending, budget progress, and recent transactions. Select a chart bar for that day's records. |
-| Transactions  | Browse, filter, create, edit, delete, and export transactions. Daily summaries only display income or expenses that actually exist.                                                      |
-| Budgets       | Lists all expense categories and lets users enable a budget, set a limit, and monitor progress and alerts.                                                                               |
-| Subscriptions | Manages recurring costs, monthly estimates, upcoming billing alerts, automatic due entries, and manual backfill.                                                                         |
-| Accounts      | Manages payment accounts and balances, transfers between accounts, and local-data backup or restore. Transfers are not treated as income or expenses.                                    |
-| Categories    | Manages built-in and custom income/expense categories. A custom category in use by a transaction or budget cannot be deleted.                                                            |
+| Page          | Purpose                                                                                                                                                                                                                                                    |
+| ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Home          | Shows the selected month's financial summary, remaining budget, seven-day chart, category spending, budget progress, and recent transactions. Select a chart bar for that day's records. The bottom section handles local backup, restore, and demo reset. |
+| Transactions  | Browse, filter, create, edit, delete, and export transactions. Daily summaries only display income or expenses that actually exist.                                                                                                                        |
+| Budgets       | Lists all expense categories and lets users enable a budget, set a limit, and monitor progress and alerts.                                                                                                                                                 |
+| Subscriptions | Manages recurring costs, monthly estimates, upcoming billing alerts, automatic due entries, and manual backfill.                                                                                                                                           |
+| Accounts      | Manages payment accounts and balances and transfers between accounts. Transfers are not treated as income or expenses.                                                                                                                                     |
+| Categories    | Manages built-in and custom income/expense categories. A custom category in use by a transaction or budget cannot be deleted.                                                                                                                              |
 
 ### Demo data
 
-The seeded demo has 54 transactions spanning 2024–2026 across varied dates, categories, and income/expense types. It supports testing filters, sorting, charts, and category analytics. If the browser still has older saved data, use **Reset demo data** under **Accounts**, then reload.
+The seeded demo has 54 transactions spanning 2024–2026 across varied dates, categories, and income/expense types. It supports testing filters, sorting, charts, and category analytics. If the browser still has older saved data, use **Reset demo data** at the bottom of **Home**, then reload.
 
 ### Run locally
 

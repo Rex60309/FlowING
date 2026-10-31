@@ -1056,6 +1056,7 @@ function Dashboard({
           />
         </article>
       </div>
+      <DataTools />
     </>
   );
 }
@@ -1298,7 +1299,6 @@ function Accounts({
         transfers={state.transfers ?? []}
         onTransfer={transfer}
       />
-      <DataTools />
       <div className="account-grid">
         {state.accounts.map((item, index) => (
           <article
@@ -1758,7 +1758,7 @@ function DataTools() {
       url = URL.createObjectURL(blob),
       link = document.createElement("a");
     link.href = url;
-    link.download = `pocketflow-backup-${new Date().toISOString().slice(0, 10)}.json`;
+    link.download = `flowing-backup-${new Date().toISOString().slice(0, 10)}.json`;
     link.click();
     URL.revokeObjectURL(url);
   };
