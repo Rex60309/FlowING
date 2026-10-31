@@ -31,9 +31,13 @@ FlowING 是一個 local-first 個人財務管理 Web App，用於整合交易、
 ### 本機啟動
 
 ```bash
+git clone <repository-url> flowing
+cd flowing
 npm install
 npm run dev
 ```
+
+請將 `<repository-url>` 替換為 GitHub repository 的 HTTPS 或 SSH 位址；啟動後開啟終端機顯示的本機網址。
 
 ### 驗證
 
@@ -90,9 +94,13 @@ FlowING is a local-first personal finance web app that brings together transacti
 ### Run locally
 
 ```bash
+git clone <repository-url> flowing
+cd flowing
 npm install
 npm run dev
 ```
+
+Replace `<repository-url>` with the repository's HTTPS or SSH URL, then open the local URL shown in the terminal.
 
 ### Validation
 
