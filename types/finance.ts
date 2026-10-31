@@ -52,6 +52,7 @@ export interface FinanceState {
   transfers?: Transfer[];
   customExpenseCategories?: string[];
   customIncomeCategories?: string[];
+  /** @deprecated Replaced by expenseCategoryOrder so budgets and categories share one order. */
   budgetOrder?: string[];
   expenseCategoryOrder?: string[];
   incomeCategoryOrder?: string[];

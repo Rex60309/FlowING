@@ -27,6 +27,16 @@ describe("finance rules", () => {
         customExpenseCategories: ["寵物"],
       })
     ).toContain("寵物"));
+  it("uses the shared expense category order for budget lists", () =>
+    expect(
+      getExpenseCategories({
+        transactions: [],
+        budgets: [],
+        subscriptions: [],
+        accounts: [],
+        expenseCategoryOrder: ["交通", "食物"],
+      }).slice(0, 2)
+    ).toEqual(["交通", "食物"]));
   it("preserves a user-defined order while retaining unranked items", () =>
     expect(orderByPreference(["食物", "交通", "日常"], ["日常", "食物"])).toEqual([
       "日常",

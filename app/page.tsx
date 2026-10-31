@@ -23,7 +23,6 @@ import {
   getIncomeCategories,
   moveListItem,
   nextBillingDate,
-  orderByPreference,
 } from "@/lib/finance-rules";
 import { formatTwd } from "@/lib/money";
 import { loadFinanceState, saveFinanceState } from "@/lib/storage";
@@ -199,7 +198,8 @@ export default function Home() {
     });
     notice(active ? `已啟用「${category}」預算，請設定額度` : `已停用「${category}」預算`);
   };
-  const reorderBudgets = (budgetOrder: string[]) => update({ ...state, budgetOrder });
+  const reorderBudgets = (expenseCategoryOrder: string[]) =>
+    update({ ...state, expenseCategoryOrder, budgetOrder: undefined });
   const reorderSubscriptions = (subscriptions: Subscription[]) =>
     update({ ...state, subscriptions });
   const reorderAccounts = (accounts: Account[]) => update({ ...state, accounts });
@@ -1075,7 +1075,7 @@ function Budgets({
   setActive: (category: string, active: boolean) => void;
   onReorder: (order: string[]) => void;
 }) {
-  const allBudgets = orderByPreference(getExpenseCategories(state), state.budgetOrder).map(
+  const allBudgets = getExpenseCategories(state).map(
     (category) =>
       state.budgets.find((item) => item.category === category) ?? {
         category,
