@@ -14,3 +14,12 @@ export function daysUntil(date: string, from = localDateString()) {
       86_400_000
   );
 }
+
+export function recentDates(end = localDateString(), count = 7) {
+  const [year, month, day] = end.split("-").map(Number);
+
+  return Array.from({ length: count }, (_, index) => {
+    const date = new Date(year, month - 1, day - (count - 1 - index));
+    return localDateString(date);
+  });
+}

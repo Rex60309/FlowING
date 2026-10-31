@@ -1004,7 +1004,7 @@ function Dashboard({
         />
       </div>
       <div className="grid">
-        <SpendingChart transactions={transactions} month={month} />
+        <SpendingChart transactions={state.transactions} />
         <article className="card">
           <div className="section-head">
             <h2>分類支出</h2>

@@ -1,40 +1,15 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { recentDates } from "@/lib/date";
 import { formatTwd } from "@/lib/money";
 import type { Transaction } from "@/types/finance";
 
 type Day = { date: string; expense: number; income: number };
 
-function shiftDate(date: string, offset: number) {
-  const [year, month, day] = date.split("-").map(Number);
-  const local = new Date(year, month - 1, day + offset);
-  return `${local.getFullYear()}-${String(local.getMonth() + 1).padStart(2, "0")}-${String(local.getDate()).padStart(2, "0")}`;
-}
-
-export function SpendingChart({
-  transactions,
-  month,
-}: {
-  transactions: Transaction[];
-  month: string;
-}) {
+export function SpendingChart({ transactions }: { transactions: Transaction[] }) {
   const days = useMemo<Day[]>(() => {
-    const [yearValue, monthValue] = month.split("-");
-    const year = Number(yearValue),
-      value = Number(monthValue);
-    const monthEnd =
-      yearValue !== "all" && monthValue !== "all"
-        ? `${year}-${String(value).padStart(2, "0")}-${String(new Date(year, value, 0).getDate()).padStart(2, "0")}`
-        : new Date().toISOString().slice(0, 10);
-    const latest = transactions.length
-      ? transactions.reduce(
-          (date, item) => (item.date > date ? item.date : date),
-          transactions[0].date
-        )
-      : monthEnd;
-    return Array.from({ length: 7 }, (_, index) => {
-      const date = shiftDate(latest, index - 6);
+    return recentDates().map((date) => {
       return transactions
         .filter((item) => item.date === date)
         .reduce<Day>((total, item) => ({ ...total, [item.type]: total[item.type] + item.amount }), {
@@ -43,7 +18,7 @@ export function SpendingChart({
           income: 0,
         });
     });
-  }, [month, transactions]);
+  }, [transactions]);
   const [hovered, setHovered] = useState<Day | null>(null);
   const [selected, setSelected] = useState<Day | null>(null);
   const [closing, setClosing] = useState(false);
@@ -51,7 +26,7 @@ export function SpendingChart({
     setHovered(null);
     setSelected(null);
     setClosing(false);
-  }, [month]);
+  }, [transactions]);
   const max = Math.max(...days.map((day) => day.expense), 1);
   const details = selected ? transactions.filter((item) => item.date === selected.date) : [];
   const close = () => {

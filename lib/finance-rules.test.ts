@@ -9,8 +9,19 @@ import {
   orderByPreference,
 } from "./finance-rules";
 import { initialState } from "./finance-data";
+import { recentDates } from "./date";
 
 describe("finance rules", () => {
+  it("builds a seven-day range ending on the current date", () =>
+    expect(recentDates("2026-01-02")).toEqual([
+      "2025-12-27",
+      "2025-12-28",
+      "2025-12-29",
+      "2025-12-30",
+      "2025-12-31",
+      "2026-01-01",
+      "2026-01-02",
+    ]));
   it("includes sample transactions for November and December 2026", () => {
     const periods = new Set(initialState.transactions.map((item) => item.date.slice(0, 7)));
 
