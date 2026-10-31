@@ -8,8 +8,16 @@ import {
   nextBillingDate,
   orderByPreference,
 } from "./finance-rules";
+import { initialState } from "./finance-data";
 
 describe("finance rules", () => {
+  it("includes sample transactions for November and December 2026", () => {
+    const periods = new Set(initialState.transactions.map((item) => item.date.slice(0, 7)));
+
+    expect(initialState.transactions).toHaveLength(66);
+    expect(periods.has("2026-11")).toBe(true);
+    expect(periods.has("2026-12")).toBe(true);
+  });
   it("only exposes enabled budgets", () =>
     expect(
       getActiveBudgets([

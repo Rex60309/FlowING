@@ -74,7 +74,7 @@ export default function Home() {
   const [toast, setToast] = useState("");
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState<TransactionType | "">("");
-  const [selectedMonth, setSelectedMonth] = useState(monthOf(today));
+  const [selectedMonth, setSelectedMonth] = useState("all-all");
   const [theme, setTheme] = useState<Theme>("light");
   const [language, setLanguage] = useState<Language>("zh");
   const toastTimer = useRef<number | undefined>(undefined);
