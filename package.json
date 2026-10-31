@@ -1,5 +1,5 @@
 {
-  "name": "pocketflow",
+  "name": "FlowING",
   "private": true,
   "scripts": {
     "dev": "vinext dev",
