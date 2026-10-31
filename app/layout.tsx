@@ -7,6 +7,8 @@ import "./data-tools.css";
 import "./insights.css";
 import "./controls.css";
 import "./theme.css";
+import "./dashboard.css";
+import "./transfers.css";
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return <html lang="zh-Hant"><body>{children}</body></html>;

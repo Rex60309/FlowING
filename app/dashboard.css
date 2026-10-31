@@ -1,0 +1,2 @@
+/* 首頁將新增入口集中於交易紀錄頁，保留年月檢視控制。 */
+.main>.top>.actions>.primary{display:none}
