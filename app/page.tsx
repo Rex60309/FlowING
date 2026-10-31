@@ -772,14 +772,16 @@ function Metric({
   value,
   hint,
   feature = false,
+  tone,
 }: {
   label: string;
   value: string;
   hint: string;
   feature?: boolean;
+  tone?: "expense" | "income";
 }) {
   return (
-    <div className={`card ${feature ? "feature" : ""}`}>
+    <div className={`card ${feature ? "feature" : ""} ${tone ? `metric-${tone}` : ""}`}>
       <div className="label">{label}</div>
       <div className="amount">{value}</div>
       <div className="hint positive">{hint}</div>
@@ -861,13 +863,14 @@ function Dashboard({
       </div>
       <div className="overview">
         <Metric
-          feature
-          label="本月總支出"
+          tone="expense"
+          label="總支出"
           value={formatTwd(expense)}
           hint={`${transactions.filter((item) => item.type === "expense").length} 筆支出`}
         />
         <Metric
-          label="本月收入"
+          tone="income"
+          label="總收入"
           value={formatTwd(income)}
           hint={`${transactions.filter((item) => item.type === "income").length} 筆收入`}
         />

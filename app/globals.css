@@ -155,6 +155,28 @@ button {
 .feature .hint {
   color: #c9e5db;
 }
+.metric-expense {
+  border-color: #efc4b7;
+  background: linear-gradient(140deg, #fff4ef, #fffaf8);
+}
+.metric-expense .label,
+.metric-expense .hint {
+  color: #9a5548;
+}
+.metric-expense .amount {
+  color: #b8483e;
+}
+.metric-income {
+  border-color: #b9ddcf;
+  background: linear-gradient(140deg, #edf9f3, #fafffc);
+}
+.metric-income .label,
+.metric-income .hint {
+  color: #397764;
+}
+.metric-income .amount {
+  color: #16775f;
+}
 .amount {
   font-size: 28px;
   font-weight: 800;

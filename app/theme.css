@@ -125,6 +125,28 @@ body,
 [data-theme="dark"] .feature {
   background: linear-gradient(140deg, #174d43, #155f52);
 }
+[data-theme="dark"] .metric-expense {
+  border-color: #77453f;
+  background: linear-gradient(140deg, #422a28, #2c2423);
+}
+[data-theme="dark"] .metric-expense .label,
+[data-theme="dark"] .metric-expense .hint {
+  color: #e0aaa0;
+}
+[data-theme="dark"] .metric-expense .amount {
+  color: #ff9b8f;
+}
+[data-theme="dark"] .metric-income {
+  border-color: #356d5d;
+  background: linear-gradient(140deg, #183c31, #1b2e28);
+}
+[data-theme="dark"] .metric-income .label,
+[data-theme="dark"] .metric-income .hint {
+  color: #9cd8c0;
+}
+[data-theme="dark"] .metric-income .amount {
+  color: #83e0b8;
+}
 [data-theme="dark"] .secondary {
   background: #1b3029;
   color: var(--ink);
