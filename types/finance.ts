@@ -52,4 +52,7 @@ export interface FinanceState {
   transfers?: Transfer[];
   customExpenseCategories?: string[];
   customIncomeCategories?: string[];
+  budgetOrder?: string[];
+  expenseCategoryOrder?: string[];
+  incomeCategoryOrder?: string[];
 }

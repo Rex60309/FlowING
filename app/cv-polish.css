@@ -76,6 +76,95 @@
 .category-empty {
   margin: 14px 0 0;
 }
+.reorder-title {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  gap: 8px;
+}
+.drag-handle {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 28px;
+  flex: 0 0 26px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #f3f7f4;
+  color: var(--muted);
+  cursor: grab;
+  font-size: 17px;
+  line-height: 1;
+  touch-action: none;
+}
+.drag-handle:active {
+  cursor: grabbing;
+}
+.drag-handle:hover,
+.drag-handle:focus-visible {
+  border-color: #75b8a4;
+  background: #e3f3ec;
+  color: var(--teal);
+  outline: none;
+}
+.reorderable {
+  transition:
+    opacity 0.16s ease,
+    transform 0.16s ease,
+    border-color 0.16s ease;
+}
+.reorderable.is-dragging {
+  border-color: #76bba7;
+  opacity: 0.55;
+  transform: scale(0.99);
+}
+.reorder-controls {
+  display: inline-flex;
+  gap: 3px;
+}
+.reorder-button {
+  display: grid;
+  place-items: center;
+  width: 25px;
+  height: 25px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: #f8fbf9;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1;
+}
+.reorder-button:hover:not(:disabled),
+.reorder-button:focus-visible {
+  border-color: #75b8a4;
+  background: #e3f3ec;
+  color: var(--teal);
+  outline: none;
+}
+.reorder-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.35;
+}
+.category-chip .drag-handle {
+  width: 18px;
+  height: 18px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font-size: 14px;
+}
+.category-chip .reorder-controls {
+  gap: 1px;
+}
+.category-chip .reorder-button {
+  width: 18px;
+  height: 18px;
+  background: transparent;
+  color: inherit;
+  font-size: 12px;
+}
 .main button,
 .main input,
 .main select {
@@ -160,4 +249,23 @@
 [data-theme="dark"] .category-chip button {
   background: #356a58;
   color: #e7f7ee;
+}
+[data-theme="dark"] .drag-handle,
+[data-theme="dark"] .reorder-button {
+  border-color: #3b584c;
+  background: #1c332a;
+  color: #afc9bd;
+}
+[data-theme="dark"] .drag-handle:hover,
+[data-theme="dark"] .drag-handle:focus-visible,
+[data-theme="dark"] .reorder-button:hover:not(:disabled),
+[data-theme="dark"] .reorder-button:focus-visible {
+  border-color: #5eaa91;
+  background: #294b3e;
+  color: #8de0c1;
+}
+[data-theme="dark"] .category-chip .drag-handle,
+[data-theme="dark"] .category-chip .reorder-button {
+  background: transparent;
+  color: inherit;
 }

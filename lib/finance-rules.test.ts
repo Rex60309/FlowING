@@ -4,7 +4,9 @@ import {
   dueSubscriptions,
   getActiveBudgets,
   getExpenseCategories,
+  moveListItem,
   nextBillingDate,
+  orderByPreference,
 } from "./finance-rules";
 
 describe("finance rules", () => {
@@ -25,6 +27,14 @@ describe("finance rules", () => {
         customExpenseCategories: ["寵物"],
       })
     ).toContain("寵物"));
+  it("preserves a user-defined order while retaining unranked items", () =>
+    expect(orderByPreference(["食物", "交通", "日常"], ["日常", "食物"])).toEqual([
+      "日常",
+      "食物",
+      "交通",
+    ]));
+  it("moves an item without changing the rest of the list", () =>
+    expect(moveListItem(["a", "b", "c"], 0, 2)).toEqual(["b", "c", "a"]));
   it("advances subscription dates across month boundaries", () => {
     expect(nextBillingDate("2026-01-31", "每月")).toBe("2026-02-28");
     expect(nextBillingDate("2024-02-29", "每年")).toBe("2025-02-28");

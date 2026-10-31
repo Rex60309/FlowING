@@ -1,6 +1,15 @@
 "use client";
 
-import { ChangeEvent, FormEvent, ReactNode, useEffect, useMemo, useRef, useState } from "react";
+import {
+  ChangeEvent,
+  DragEvent,
+  FormEvent,
+  ReactNode,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { SpendingChart } from "@/components/dashboard/SpendingChart";
 import { TransactionList } from "@/components/transactions/TransactionList";
 import { SelectEnhancer } from "@/components/ui/SelectEnhancer";
@@ -12,7 +21,9 @@ import {
   getActiveBudgets,
   getExpenseCategories,
   getIncomeCategories,
+  moveListItem,
   nextBillingDate,
+  orderByPreference,
 } from "@/lib/finance-rules";
 import { formatTwd } from "@/lib/money";
 import { loadFinanceState, saveFinanceState } from "@/lib/storage";
@@ -188,6 +199,15 @@ export default function Home() {
     });
     notice(active ? `已啟用「${category}」預算，請設定額度` : `已停用「${category}」預算`);
   };
+  const reorderBudgets = (budgetOrder: string[]) => update({ ...state, budgetOrder });
+  const reorderSubscriptions = (subscriptions: Subscription[]) =>
+    update({ ...state, subscriptions });
+  const reorderAccounts = (accounts: Account[]) => update({ ...state, accounts });
+  const reorderCategories = (type: TransactionType, order: string[]) =>
+    update({
+      ...state,
+      [type === "expense" ? "expenseCategoryOrder" : "incomeCategoryOrder"]: order,
+    });
   const open = (kind: Exclude<Kind, null>, item: Editable = null) => {
     setEditing(item);
     setModal(kind);
@@ -511,12 +531,22 @@ export default function Home() {
             onMonthChange={setSelectedMonth}
             open={open}
             setActive={setBudgetActive}
+            onReorder={reorderBudgets}
           />
         )}
-        {page === "subscriptions" && <Subscriptions state={state} open={open} />}
-        {page === "accounts" && <Accounts state={state} open={open} transfer={transfer} />}
+        {page === "subscriptions" && (
+          <Subscriptions state={state} open={open} onReorder={reorderSubscriptions} />
+        )}
+        {page === "accounts" && (
+          <Accounts state={state} open={open} transfer={transfer} onReorder={reorderAccounts} />
+        )}
         {page === "categories" && (
-          <Categories state={state} add={addCategory} remove={removeCategory} />
+          <Categories
+            state={state}
+            add={addCategory}
+            remove={removeCategory}
+            onReorder={reorderCategories}
+          />
         )}
       </main>
       {modal && (
@@ -760,6 +790,79 @@ function TransactionTotals({ transactions }: { transactions: Transaction[] }) {
     </section>
   );
 }
+
+function useSortableList<T>(
+  items: T[],
+  getId: (item: T) => string,
+  onReorder: (items: T[]) => void
+) {
+  const [draggedId, setDraggedId] = useState<string | null>(null);
+  const move = (from: number, to: number) => onReorder(moveListItem(items, from, to));
+  const moveTo = (targetId: string) => {
+    if (!draggedId || draggedId === targetId) return;
+    const from = items.findIndex((item) => getId(item) === draggedId);
+    const to = items.findIndex((item) => getId(item) === targetId);
+    if (from >= 0 && to >= 0) move(from, to);
+  };
+
+  return {
+    draggedId,
+    itemProps: (id: string) => ({
+      onDragOver: (event: DragEvent<HTMLElement>) => event.preventDefault(),
+      onDrop: (event: DragEvent<HTMLElement>) => {
+        event.preventDefault();
+        moveTo(id);
+        setDraggedId(null);
+      },
+    }),
+    handleProps: (id: string) => ({
+      draggable: true,
+      onDragStart: (event: DragEvent<HTMLButtonElement>) => {
+        event.dataTransfer.effectAllowed = "move";
+        setDraggedId(id);
+      },
+      onDragEnd: () => setDraggedId(null),
+    }),
+    move,
+  };
+}
+
+function ReorderControls({
+  index,
+  total,
+  onMove,
+  label,
+}: {
+  index: number;
+  total: number;
+  onMove: (from: number, to: number) => void;
+  label: string;
+}) {
+  return (
+    <div className="reorder-controls" aria-label={`調整 ${label} 排序`}>
+      <button
+        type="button"
+        className="reorder-button"
+        disabled={index === 0}
+        onClick={() => onMove(index, index - 1)}
+        aria-label={`上移 ${label}`}
+        title="上移"
+      >
+        ↑
+      </button>
+      <button
+        type="button"
+        className="reorder-button"
+        disabled={index === total - 1}
+        onClick={() => onMove(index, index + 1)}
+        aria-label={`下移 ${label}`}
+        title="下移"
+      >
+        ↓
+      </button>
+    </div>
+  );
+}
 function Progress({ value }: { value: number }) {
   return (
     <div className={`progress ${value >= 80 ? "warn" : ""}`}>
@@ -950,6 +1053,7 @@ function Budgets({
   onMonthChange,
   open,
   setActive,
+  onReorder,
 }: {
   state: FinanceState;
   spend: Record<string, number>;
@@ -958,8 +1062,9 @@ function Budgets({
   onMonthChange: (month: string) => void;
   open: (kind: Exclude<Kind, null>, item?: Editable) => void;
   setActive: (category: string, active: boolean) => void;
+  onReorder: (order: string[]) => void;
 }) {
-  const allBudgets = getExpenseCategories(state).map(
+  const allBudgets = orderByPreference(getExpenseCategories(state), state.budgetOrder).map(
     (category) =>
       state.budgets.find((item) => item.category === category) ?? {
         category,
@@ -970,6 +1075,11 @@ function Budgets({
   const alerts = allBudgets
     .map((item) => ({ ...item, used: spend[item.category] ?? 0 }))
     .filter((item) => item.active !== false && item.limit > 0 && item.used / item.limit >= 0.8);
+  const sortable = useSortableList(
+    allBudgets,
+    (item) => item.category,
+    (items) => onReorder(items.map((item) => item.category))
+  );
   return (
     <>
       <div className="top">
@@ -997,16 +1107,31 @@ function Budgets({
         </section>
       )}
       <div className="budget-list">
-        {allBudgets.map((item) => {
+        {allBudgets.map((item, index) => {
           const enabled = item.active !== false,
             used = spend[item.category] ?? 0,
             percent = enabled && item.limit > 0 ? (used / item.limit) * 100 : 0;
           return (
-            <article className={`budget-item ${enabled ? "" : "disabled"}`} key={item.category}>
+            <article
+              className={`budget-item reorderable ${enabled ? "" : "disabled"} ${sortable.draggedId === item.category ? "is-dragging" : ""}`}
+              key={item.category}
+              {...sortable.itemProps(item.category)}
+            >
               <header>
-                <strong>
-                  {categoryIcons[item.category] ?? "◦"}　{item.category}
-                </strong>
+                <div className="reorder-title">
+                  <button
+                    type="button"
+                    className="drag-handle"
+                    aria-label={`拖曳以排序 ${item.category}`}
+                    title="拖曳以排序"
+                    {...sortable.handleProps(item.category)}
+                  >
+                    ⠿
+                  </button>
+                  <strong>
+                    {categoryIcons[item.category] ?? "◦"}　{item.category}
+                  </strong>
+                </div>
                 <div className="item-actions">
                   <span className={`budget-status ${enabled ? "on" : ""}`}>
                     {enabled ? "啟用中" : "未啟用"}
@@ -1020,6 +1145,12 @@ function Budgets({
                   <button className="icon-button" onClick={() => open("budget", item)}>
                     編輯
                   </button>
+                  <ReorderControls
+                    index={index}
+                    total={allBudgets.length}
+                    onMove={sortable.move}
+                    label={item.category}
+                  />
                 </div>
               </header>
               {enabled ? (
@@ -1043,9 +1174,11 @@ function Budgets({
 function Subscriptions({
   state,
   open,
+  onReorder,
 }: {
   state: FinanceState;
   open: (kind: Exclude<Kind, null>, item?: Editable) => void;
+  onReorder: (subscriptions: Subscription[]) => void;
 }) {
   const active = state.subscriptions.filter((item) => item.status === "啟用中");
   const monthly = active.reduce(
@@ -1065,6 +1198,7 @@ function Subscriptions({
     .sort((a, b) => a.remaining - b.remaining);
   const timing = (remaining: number) =>
     remaining === 0 ? "今天扣款" : remaining === 1 ? "明天扣款" : `${remaining} 天後扣款`;
+  const sortable = useSortableList(state.subscriptions, (item) => item.id, onReorder);
   return (
     <>
       <Header
@@ -1083,16 +1217,31 @@ function Subscriptions({
         <UpcomingSubscriptionCard items={upcoming} timing={timing} />
       </div>
       <div className="subscription-list">
-        {state.subscriptions.map((item) => {
+        {state.subscriptions.map((item, index) => {
           const remaining = daysUntil(item.next);
           return (
-            <article className="sub-item" key={item.id}>
+            <article
+              className={`sub-item reorderable ${sortable.draggedId === item.id ? "is-dragging" : ""}`}
+              key={item.id}
+              {...sortable.itemProps(item.id)}
+            >
               <header>
-                <div>
-                  <strong>{item.name}</strong>
-                  <p>
-                    {item.cycle} · {item.account}
-                  </p>
+                <div className="reorder-title">
+                  <button
+                    type="button"
+                    className="drag-handle"
+                    aria-label={`拖曳以排序 ${item.name}`}
+                    title="拖曳以排序"
+                    {...sortable.handleProps(item.id)}
+                  >
+                    ⠿
+                  </button>
+                  <div>
+                    <strong>{item.name}</strong>
+                    <p>
+                      {item.cycle} · {item.account}
+                    </p>
+                  </div>
                 </div>
                 <div className="right">
                   <strong>{formatTwd(item.amount)}</strong>
@@ -1113,6 +1262,12 @@ function Subscriptions({
                   <button className="icon-button" onClick={() => open("subscription", item)}>
                     編輯
                   </button>
+                  <ReorderControls
+                    index={index}
+                    total={state.subscriptions.length}
+                    onMove={sortable.move}
+                    label={item.name}
+                  />
                 </div>
               </div>
             </article>
@@ -1126,11 +1281,14 @@ function Accounts({
   state,
   open,
   transfer,
+  onReorder,
 }: {
   state: FinanceState;
   open: (kind: Exclude<Kind, null>, item?: Editable) => void;
   transfer: (item: Omit<Transfer, "id">) => void;
+  onReorder: (accounts: Account[]) => void;
 }) {
+  const sortable = useSortableList(state.accounts, (item) => item.id, onReorder);
   return (
     <>
       <Header
@@ -1149,15 +1307,38 @@ function Accounts({
       />
       <DataTools />
       <div className="account-grid">
-        {state.accounts.map((item) => (
-          <article className="account" key={item.id}>
+        {state.accounts.map((item, index) => (
+          <article
+            className={`account reorderable ${sortable.draggedId === item.id ? "is-dragging" : ""}`}
+            key={item.id}
+            {...sortable.itemProps(item.id)}
+          >
             <div className="section-head tight">
-              <div className="icon">
-                {item.type === "信用卡" ? "▣" : item.type === "現金" ? "◫" : "◇"}
+              <div className="reorder-title">
+                <button
+                  type="button"
+                  className="drag-handle"
+                  aria-label={`拖曳以排序 ${item.name}`}
+                  title="拖曳以排序"
+                  {...sortable.handleProps(item.id)}
+                >
+                  ⠿
+                </button>
+                <div className="icon">
+                  {item.type === "信用卡" ? "▣" : item.type === "現金" ? "◫" : "◇"}
+                </div>
               </div>
-              <button className="icon-button" onClick={() => open("account", item)}>
-                編輯
-              </button>
+              <div className="item-actions">
+                <button className="icon-button" onClick={() => open("account", item)}>
+                  編輯
+                </button>
+                <ReorderControls
+                  index={index}
+                  total={state.accounts.length}
+                  onMove={sortable.move}
+                  label={item.name}
+                />
+              </div>
             </div>
             <h3>{item.name}</h3>
             <div className="hint">{item.type}</div>
@@ -1172,10 +1353,12 @@ function Categories({
   state,
   add,
   remove,
+  onReorder,
 }: {
   state: FinanceState;
   add: (type: TransactionType, name: string) => void;
   remove: (type: TransactionType, name: string) => void;
+  onReorder: (type: TransactionType, order: string[]) => void;
 }) {
   const [type, setType] = useState<TransactionType>("expense"),
     [name, setName] = useState("");
@@ -1188,10 +1371,12 @@ function Categories({
     type === "expense"
       ? (state.customExpenseCategories ?? [])
       : (state.customIncomeCategories ?? []);
-  const builtIn =
-    type === "expense"
-      ? expenseCategories
-      : getIncomeCategories({ ...state, customIncomeCategories: [] });
+  const categories = type === "expense" ? getExpenseCategories(state) : getIncomeCategories(state);
+  const sortable = useSortableList(
+    categories,
+    (item) => item,
+    (items) => onReorder(type, items)
+  );
   return (
     <>
       <Header eyebrow="個人化設定" title="分類管理" />
@@ -1226,18 +1411,36 @@ function Categories({
           <span className="hint">內建分類不可刪除</span>
         </div>
         <div className="category-chips">
-          {builtIn.map((item) => (
-            <span className="category-chip fixed" key={item}>
-              {categoryIcons[item] ?? "◦"} {item}
-            </span>
-          ))}
-          {custom.map((item) => (
-            <span className="category-chip" key={item}>
-              {categoryIcons[item] ?? "◦"} {item}
-              <button onClick={() => remove(type, item)} aria-label={`刪除 ${item} 分類`}>
-                ×
+          {categories.map((item, index) => (
+            <div
+              className={`category-chip reorderable ${custom.includes(item) ? "" : "fixed"} ${sortable.draggedId === item ? "is-dragging" : ""}`}
+              key={item}
+              {...sortable.itemProps(item)}
+            >
+              <button
+                type="button"
+                className="drag-handle"
+                aria-label={`拖曳以排序 ${item}`}
+                title="拖曳以排序"
+                {...sortable.handleProps(item)}
+              >
+                ⠿
               </button>
-            </span>
+              <span>
+                {categoryIcons[item] ?? "◦"} {item}
+              </span>
+              {custom.includes(item) && (
+                <button onClick={() => remove(type, item)} aria-label={`刪除 ${item} 分類`}>
+                  ×
+                </button>
+              )}
+              <ReorderControls
+                index={index}
+                total={categories.length}
+                onMove={sortable.move}
+                label={item}
+              />
+            </div>
           ))}
         </div>
         {!custom.length && <p className="hint category-empty">尚未建立自訂分類。</p>}
