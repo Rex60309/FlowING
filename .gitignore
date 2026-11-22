@@ -8,6 +8,8 @@ node_modules/
 .next/
 .vinext/
 .vercel/
+/.output/
+/next-env.d.ts
 dist/
 coverage/
 .turbo/
@@ -19,6 +21,10 @@ coverage/
 !.env.example
 *.pem
 *.key
+
+# Local financial exports
+flowing-backup-*.json
+pocketflow-transactions*.csv
 
 # Logs and package-manager diagnostics
 *.log
