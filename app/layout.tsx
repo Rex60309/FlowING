@@ -15,6 +15,10 @@ import "./subscription-kpi-tuning.css";
 import "./cv-polish.css";
 import "./language.css";
 
+export const metadata = {
+  title: "FlowING",
+};
+
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="zh-Hant">
